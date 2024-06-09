@@ -10,11 +10,6 @@ int32 MainEntry()
 	int32 ExitCode = 0;
 	try
 	{
-		if (!GApplication.Initialize())
-		{
-			bProgrammExitRequested = true;
-		}
-
 		GEngine.Initialize();
 		while (!bProgrammExitRequested)
 		{
@@ -22,8 +17,7 @@ int32 MainEntry()
 		}
 		GEngine.ShutDown();
 
-		ExitCode = GApplication.GetExitCode();
-		GApplication.ShutDown();
+		ExitCode = GApplication->GetExitCode();
 	}
 	catch (const std::exception& e)
 	{

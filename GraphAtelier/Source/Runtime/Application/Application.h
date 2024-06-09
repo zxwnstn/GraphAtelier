@@ -5,14 +5,19 @@
 class FApplication
 {
 public:
-	bool Initialize();
-	void ShutDown();
+	virtual bool Initialize();
+	virtual void ShutDown();
 
-	FBasicWindowInformation GetMainWindowInformation();
+	const FBasicWindowInformation& GetMainWindowInformation();
 	int32 GetExitCode() { return ExitCode; }
+	virtual void* GetHandle() = 0;
+	FString GetTitle() { return Title; }
 
 private:
+	FString Title;
 	int32 ExitCode;
+
+	FBasicWindowInformation BasicWindowInformation;
 };
 
-extern FApplication GApplication;
+extern FApplication* GApplication;

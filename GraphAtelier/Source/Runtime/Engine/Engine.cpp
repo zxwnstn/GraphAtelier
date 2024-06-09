@@ -8,24 +8,36 @@ FEngine GEngine;
 
 void FEngine::Initialize()
 {
+	// Crate Main Window
 	extern FWindow* CreatePlatformWindow(const FBasicWindowInformation&);
 	if (!MainWindow)
 	{
-		FBasicWindowInformation BasicWindowInformation = GApplication.GetMainWindowInformation();
+		const FBasicWindowInformation& BasicWindowInformation = GApplication->GetMainWindowInformation();
 		MainWindow = CreatePlatformWindow(BasicWindowInformation);
+		MainWindow->Initialize();
 		Windows.push_back(MainWindow);
 	}
 
+#if BUILD_DEBUG
 	if (FCommandLine::Get().Has(TSTR("CreateConsole")))
 	{
 		FBasicWindowInformation ConsoleWindowInformation;
 		ConsoleWindowInformation.bConsole = true;
 		Windows.push_back(CreatePlatformWindow(ConsoleWindowInformation));
 	}
+#endif
+
+	MainWindow->Show();
 }
 
 void FEngine::ShutDown()
 {
+	for (FWindow* Window : Windows)
+	{
+		Window->Shutdown();
+		delete Window;
+	}
+	Windows.clear();
 }
 
 int FEngine::Tick()

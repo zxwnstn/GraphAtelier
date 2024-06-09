@@ -35,3 +35,5 @@ using int64 = long long;
 extern FArray<FString> Split(const FString& TargetString, const FString& Delim, const bool bTrim);
 extern FString TrimLeft(const FString& TargetString);
 extern FString TrimRight(const FString& TargetString);
+extern int32 ToInt32(const FString& TargetString);
+extern FString ToString(const int32 TargetInt);

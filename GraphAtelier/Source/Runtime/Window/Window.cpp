@@ -2,6 +2,15 @@
 
 #include "Window.h"
 
-void FWindow::PumpMessage()
+bool FWindow::Initialize()
+{
+	return true;
+}
+
+void FWindow::Shutdown()
+{
+}
+
+void FWindow::Tick()
 {
 }

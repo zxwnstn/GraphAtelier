@@ -78,14 +78,14 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(SolutionDir)\Build</OutDir>
-    <IntDir>$(SolutionDir)\Intermediate\$(Platform)\$(Configuration)\</IntDir>
+    <OutDir>$(ProjectDir)\Build\</OutDir>
+    <IntDir>$(ProjectDir)\Intermediate\$(Platform)\$(Configuration)\</IntDir>
     <TargetName>$(ProjectName)_$(Platform)_$(Configuration)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(SolutionDir)\Build</OutDir>
-    <IntDir>$(SolutionDir)\Intermediate\$(Platform)\$(Configuration)\</IntDir>
+    <OutDir>$(ProjectDir)\Build\</OutDir>
+    <IntDir>$(ProjectDir)\Intermediate\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -124,6 +124,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>.\Source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -139,6 +140,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>.\Source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -150,23 +152,31 @@
   <ItemGroup>
     <ClCompile Include="Source\Common\Type.h" />
     <ClCompile Include="Source\Common\TypeUtil.cpp" />
+    <ClCompile Include="Source\Platform\Windows\WindowsAppliacation.cpp" />
     <ClCompile Include="Source\Platform\Windows\WindowsLaunch.cpp" />
     <ClCompile Include="Source\Platform\Windows\Window\WindowsWindow.cpp" />
+    <ClCompile Include="Source\Platform\Windows\Window\WindowsWindowProc.cpp" />
     <ClCompile Include="Source\Runtime\Application\Application.cpp" />
     <ClCompile Include="Source\Runtime\Engine\Command.cpp" />
     <ClCompile Include="Source\Runtime\Engine\Engine.cpp" />
     <ClCompile Include="Source\Runtime\Launch\Entry.cpp" />
+    <ClCompile Include="Source\Runtime\Util\File.cpp" />
+    <ClCompile Include="Source\Runtime\Util\Ini.cpp" />
     <ClCompile Include="Source\Runtime\Window\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Common\Define.h" />
     <ClInclude Include="Source\Common\PCH.h" />
+    <ClInclude Include="Source\Platform\Windows\WindowsAppliacation.h" />
     <ClInclude Include="Source\Platform\Windows\WindowsCommon.h" />
     <ClInclude Include="Source\Platform\Windows\Window\WindowsWindow.h" />
+    <ClInclude Include="Source\Platform\Windows\Window\WindowsWindowProc.h" />
     <ClInclude Include="Source\Runtime\Application\Application.h" />
     <ClInclude Include="Source\Runtime\Engine\Engine.h" />
     <ClInclude Include="Source\Runtime\Engine\Command.h" />
     <ClInclude Include="Source\Runtime\RHI\RHI.h" />
+    <ClInclude Include="Source\Runtime\Util\File.h" />
+    <ClInclude Include="Source\Runtime\Util\Ini.h" />
     <ClInclude Include="Source\Runtime\Window\Window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

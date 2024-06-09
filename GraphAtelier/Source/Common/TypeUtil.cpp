@@ -1,5 +1,11 @@
 #include "Common/Type.h"
 
+#if UNICODE
+    #define _ToString std::to_wstring
+#else
+    #define _ToString std::to_string
+#endif
+
 FString TrimLeft(const FString& TargetString)
 {
     int32 TargetStringLen = TargetString.length();
@@ -59,6 +65,15 @@ FArray<FString> Split(const FString& TargetString, const FString& Delim, const b
     if (DelimStartPositions.size() == 0)
     {
         Ret.push_back(TargetString);
+        return Ret;
+    }
+    
+    {
+        FString FirstTokken = TargetString.substr(0, DelimStartPositions[0]);
+        if (!FirstTokken.empty())
+        {
+            Ret.push_back(FirstTokken);
+        }
     }
 
     int32 DelimLen = Delim.length();
@@ -93,4 +108,14 @@ FArray<FString> Split(const FString& TargetString, const FString& Delim, const b
     }
 
 	return Ret;
+}
+
+int32 ToInt32(const FString& TargetString)
+{
+    return std::stoi(TargetString);
+}
+
+FString ToString(const int32 TargetInt)
+{
+    return _ToString(TargetInt);
 }
