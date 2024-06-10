@@ -16,7 +16,6 @@ int32 MainEntry()
 			GEngine.Tick();
 		}
 		GEngine.ShutDown();
-
 		ExitCode = GApplication->GetExitCode();
 	}
 	catch (const std::exception& e)
