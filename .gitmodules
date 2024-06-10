@@ -1,0 +1,4 @@
+[submodule "GraphAtelier/ThirdParty/imgui"]
+	path = GraphAtelier/ThirdParty/imgui
+	branch = docking
+	url = https://github.com/ocornut/imgui

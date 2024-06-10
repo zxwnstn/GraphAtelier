@@ -3,6 +3,8 @@
 #include "Runtime/Engine/Engine.h"
 #include "Runtime/Application/Application.h"
 
+#include "imgui.h"
+
 bool bProgrammExitRequested = false;
 
 int32 MainEntry()
@@ -10,6 +12,9 @@ int32 MainEntry()
 	int32 ExitCode = 0;
 	try
 	{
+		ImGui::CreateContext();
+		ImGuiIO& io = ImGui::GetIO();
+
 		GEngine.Initialize();
 		while (!bProgrammExitRequested)
 		{
