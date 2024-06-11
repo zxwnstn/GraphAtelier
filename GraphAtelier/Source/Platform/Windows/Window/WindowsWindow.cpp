@@ -72,8 +72,8 @@ void FWindowsWindow::Shutdown()
 {
     FWindow::Shutdown();
 
-    UnregisterClass(WindowClassName.c_str(), WindowClass.hInstance);
     CloseHandle(hWnd);
+    UnregisterClass(WindowClassName.c_str(), WindowClass.hInstance);
 }
 
 void FWindowsWindow::Tick()

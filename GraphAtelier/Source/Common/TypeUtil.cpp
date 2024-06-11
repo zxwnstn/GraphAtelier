@@ -47,6 +47,10 @@ FString Trim(const FString& TargetString)
 FArray<FString> Split(const FString& TargetString, const FString& Delim, const bool bTrim)
 {
 	FArray<FString> Ret;
+	if (TargetString.empty())
+	{
+		return Ret;
+	}
 
     int32 DelimStartPosition = 0;
     FArray<int32> DelimStartPositions;
@@ -115,7 +119,42 @@ int32 ToInt32(const FString& TargetString)
     return std::stoi(TargetString);
 }
 
+float ToFloat(const FString& TargetString)
+{
+    return std::stof(TargetString);
+}
+
 FString ToString(const int32 TargetInt)
 {
     return _ToString(TargetInt);
 }
+
+FAnsiString ConvertAnsiString(const FString& TargetString)
+{
+#if UNICODE
+    return FAnsiString(TargetString.begin() , TargetString.end());
+#else
+    return TargetString;
+#endif
+}
+
+FWideString ConvertWideString(const FString& TargetString)
+{
+#if UNICODE
+	return TargetString;
+#else
+	return FWideString(TargetString.begin(), TargetString.end());
+#endif
+}
+
+#if UNICODE
+FWideString ConvertWideString(const FAnsiString& TargetString)
+{
+    return FWideString(TargetString.begin(), TargetString.end());
+}
+#else
+FAnsiString ConvertAnsiString(const FWideString& TargetString)
+{
+    return FAnsiString(TargetString.begin(), TargetString.end());
+}
+#endif

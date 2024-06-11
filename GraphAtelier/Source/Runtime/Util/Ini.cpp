@@ -3,6 +3,9 @@
 #include "Runtime/Util/Ini.h"
 #include "Runtime/Util/File.h"
 
+static const FString IniFileExtension = FString(TSTR("ini"));
+static const FString IniFileDotExtension = FString(TSTR(".ini"));
+
 FString FIni::GetValue(const FString& ConfigName, const FString& SectionName) const
 {
 	if (!SectionName.empty())
@@ -32,24 +35,65 @@ FString FIni::GetValue(const FString& ConfigName, const FString& SectionName) co
 	return FString();
 }
 
+int32 FIni::GetValueAsInt32(const FString& ConfigName, const FString& SectionName) const
+{
+	FString Value = GetValue(ConfigName, SectionName);
+	return Value.empty() ? COMMON_INVALID_INT : ToInt32(Value);
+}
+
+float FIni::GetValueAsFloat(const FString& ConfigName, const FString& SectionName) const
+{
+	FString Value = GetValue(ConfigName, SectionName);
+	return Value.empty() ? COMMON_INVALID_FLOAT : ToFloat(Value);
+}
+
+bool FIni::IsValid() const
+{
+	return !FullPath.empty() && !Name.empty();
+}
+
 const FIni& FIniManager::ReadIni(const FString& InPath, const FString& InIniName)
 {
-	if (!FFileHelper::FileExist(InPath))
+	return ReadIni(FPath(InPath), InIniName);
+}
+
+const FIni& FIniManager::ReadIni(const FPath& InPath, const FString& InIniName)
+{
+	bool bIsDirectory = FFileHelper::DirectoryExist(InPath);
+	bool bIsFile = FFileHelper::FileExist(InPath);
+
+	if (!bIsDirectory && !bIsFile)
 	{
 		return IniMap.find(TSTR("None"))->second;
 	}
 
-	 FIni& Ini = IniMap.emplace(InIniName, FIni()).first->second;
-	
-	 Ini.Name = InIniName;
-	 Ini.FullPath = FFileHelper::GetAbsolutePath(InPath);
+	FIni& Ini = IniMap.emplace(InIniName, FIni()).first->second;
 
+	Ini.Name = InIniName;
+	if (bIsDirectory)
+	{
+		FString FullPath = FString(InPath) + FString(TSTR("/")) + InIniName + IniFileDotExtension;
+		Ini.FullPath = FFileHelper::GetAbsolutePath(FullPath);
+	}
+	else if (Ini.FullPath.extension().compare(IniFileExtension))
+	{
+		Ini.FullPath = FFileHelper::GetAbsolutePath(InPath);
+	}
+	else
+	{
+		// TODO : Add Log
+	}
+	
+	FFile File = FFileHelper::ReadFile(Ini.FullPath);
+	if (!File.IsValid())
+	{
+		return Ini;
+	}
 
 	FIniSection* DefaultSection = &Ini.SectionMap.emplace(TSTR("Default"), FIniSection()).first->second;
 	FIniSection* CurrentSection = DefaultSection;
-	
-	FFile File = FFileHelper::ReadFile(InPath);
-	FStringStream StringStream(File.Content);
+
+	FStringStream StringStream(File.GetContent());
 	while (!StringStream.eof())
 	{
 		FString Line;
@@ -70,8 +114,14 @@ const FIni& FIniManager::ReadIni(const FString& InPath, const FString& InIniName
 			CurrentSection->emplace(KeyValue[0], KeyValue.size() > 1 ? KeyValue[1] : TSTR(""));
 		}
 	}
+	File.ClearContentMemory();
 
 	return Ini;
+}
+
+FIni FIniManager::WriteIni(const FString& InPath, const FString& IniName)
+{
+	return FIni();
 }
 
 FIniManager& FIniManager::Get()
@@ -86,9 +136,14 @@ FIniManager& FIniManager::Get()
 	return Manager;
 }
 
-const bool FIniManager::GetIni(const FString& IniName, FIni& OutIni)
+const FIni& FIniManager::GetIni(const FString& IniName)
 {
+	auto It = IniMap.find(IniName);
+	bool bHasIni = It != IniMap.end();
+	if (bHasIni)
+	{
+		return It->second;
+	}
 
-
-	return true;
+	return IniMap[TSTR("None")];
 }

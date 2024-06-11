@@ -2,24 +2,33 @@
 
 #include "Application.h"
 #include "Runtime/Util/Ini.h"
-
+#include "Runtime/Util/File.h"
 FApplication* GApplication = nullptr;
 
 bool FApplication::Initialize()
 {
-	// Path Setting
+	// TODO : Log Initialize
 	
-	// BasicWindowInformation Setting
-	const FIni& Ini = FIniManager::Get().ReadIni(TSTR("E:\\dev\\GraphAtelier\\GraphAtelier\\Config\\DefaultSetting.ini"), TSTR("DefaultSetting"));
-	BasicWindowInformation.Height = ToInt32(Ini.GetValue(TSTR("Height")));
-	BasicWindowInformation.Width = ToInt32(Ini.GetValue(TSTR("Width")));
-	BasicWindowInformation.WindowScreenPosX = ToInt32(Ini.GetValue(TSTR("WindowScreenPosX")));
-	BasicWindowInformation.WindowScreenPosY = ToInt32(Ini.GetValue(TSTR("WindowScreenPosY")));
-	BasicWindowInformation.bConsole = false;
-	BasicWindowInformation.PlatformHandle = nullptr;
+	// Path Setting
+	if (!FFileHelper::InitializePaths())
+	{
+		return false;
+	}
 
-	Title = Ini.GetValue(TSTR("Title"));
+	// Read Ini
+	const FIni& DefaultSettingIni = FIniManager::Get().ReadIni(FPaths::RelativeConfigPath, TSTR("DefaultSetting"));
+	if (DefaultSettingIni.IsValid())
+	{
+		Title = DefaultSettingIni.GetValue(TSTR("Title"));
+		// TODO : Log Title and BasicWindowInformation
 
+		BasicWindowInformation.Height = DefaultSettingIni.GetValueAsInt32(TSTR("Height"));
+		BasicWindowInformation.Width = DefaultSettingIni.GetValueAsInt32(TSTR("Width"));
+		BasicWindowInformation.WindowScreenPosX = DefaultSettingIni.GetValueAsInt32(TSTR("WindowScreenPosX"));
+		BasicWindowInformation.WindowScreenPosY = DefaultSettingIni.GetValueAsInt32(TSTR("WindowScreenPosY"));
+		BasicWindowInformation.bConsole = false;
+		BasicWindowInformation.PlatformHandle = nullptr;
+	}
 	return true;
 }
 

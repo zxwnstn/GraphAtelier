@@ -2,12 +2,12 @@
 
 struct FBasicWindowInformation
 {
-	int32 Width;
-	int32 Height;
-	int32 WindowScreenPosX;
-	int32 WindowScreenPosY;
-	bool bConsole;
-	void* PlatformHandle;
+	int32 Width = 0; 
+	int32 Height = 0;
+	int32 WindowScreenPosX = 0;
+	int32 WindowScreenPosY = 0;
+	bool bConsole = false;
+	void* PlatformHandle = nullptr;
 };
 
 class FWindow

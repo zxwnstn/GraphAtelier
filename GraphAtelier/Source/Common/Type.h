@@ -1,14 +1,21 @@
 #include <string>
 #include <sstream>
 
+using FWideString = std::wstring;
+using FWideStream = std::wstringstream;
+using FAnsiString = std::string;
+using FAnsiStream = std::stringstream;
+
 #if _UNICODE
-	using FString = std::wstring;
-	using FStringStream = std::wstringstream;
+	using FString = FWideString;
+	using FStringStream = FWideStream;
 #else
-	using FString = std::string;
-	using FStringStream = std::stringstream;
+	using FString = FAnsiString;
+	using FStringStream = FAnsiStream;
 #endif
 
+#define COMMON_INVALID_INT -1
+#define COMMON_INVALID_FLOAT 1E+37
 
 #include <unordered_map>
 
@@ -36,4 +43,14 @@ extern FArray<FString> Split(const FString& TargetString, const FString& Delim, 
 extern FString TrimLeft(const FString& TargetString);
 extern FString TrimRight(const FString& TargetString);
 extern int32 ToInt32(const FString& TargetString);
+extern float ToFloat(const FString& TargetString);
 extern FString ToString(const int32 TargetInt);
+
+extern FAnsiString ConvertAnsiString(const FString& TargetString);
+extern FWideString ConvertWideString(const FString& TargetString);
+
+#if UNICODE
+	extern FWideString ConvertWideString(const FAnsiString& TargetString);
+#else
+	extern FAnsiString ConvertAnsiString(const FWideString& TargetString);
+#endif

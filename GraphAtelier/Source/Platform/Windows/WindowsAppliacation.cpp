@@ -4,7 +4,7 @@
 
 #include "Runtime/Application/Application.h"
 #include "Platform/Windows/WindowsAppliacation.h"
-
+#include "Runtime/Util/File.h"
 
 FWindowsApplication::FWindowsApplication(HINSTANCE InInstance)
 	: Instance(InInstance)
@@ -13,7 +13,11 @@ FWindowsApplication::FWindowsApplication(HINSTANCE InInstance)
 
 bool FWindowsApplication::Initialize()
 {
+	FStringPaths::AbsoluteExecuatablePath.resize(MAX_PATH);
+	GetModuleFileName(NULL, FStringPaths::AbsoluteExecuatablePath.data(), MAX_PATH);
+
 	FApplication::Initialize();
+
 	return true;
 }
 

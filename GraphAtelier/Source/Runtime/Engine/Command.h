@@ -11,7 +11,7 @@ public:
 public:
 	void Initialize(const FString& InOriginalCommandLine);
 
-	FString Param(const FString& InParam);
+	bool Param(const FString& InParam, FString& OutValue);
 	bool Has(const FString& InParam);
 
 	const FString& GetOriginalCommandLine() const

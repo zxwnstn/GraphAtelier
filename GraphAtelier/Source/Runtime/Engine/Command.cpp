@@ -25,10 +25,11 @@ void FCommandLine::Initialize(const FString& InOriginalCommandLine)
 	}
 }
 
-FString FCommandLine::Param(const FString& Param)
+bool FCommandLine::Param(const FString& InParam, FString& OutValue)
 {
-	auto Value = ValidCommands.find(Param);
-	return Value != ValidCommands.end() ? Value->second : TSTR("");
+	auto Value = ValidCommands.find(InParam);
+	OutValue = Value != ValidCommands.end() ? Value->second : TSTR("");
+	return Value != ValidCommands.end();
 }
 
 bool FCommandLine::Has(const FString& Param)
