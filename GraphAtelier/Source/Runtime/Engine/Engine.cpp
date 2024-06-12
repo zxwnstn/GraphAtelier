@@ -4,6 +4,9 @@
 #include "Runtime/Application/Application.h"
 #include "Command.h"
 
+#include "Pointage/Include/Pointage.h"
+
+#include <Windows.h>
 FEngine GEngine;
 
 void FEngine::Initialize()
@@ -28,6 +31,11 @@ void FEngine::Initialize()
 #endif
 
 	MainWindow->Show();
+
+	// Initialize Pointage
+	auto v = LoadLibrary(L"Pointage.dll");
+	Pointage::ATest::Init();
+	Pointage::Initialize();
 }
 
 void FEngine::ShutDown()

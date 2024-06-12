@@ -32,5 +32,5 @@
 *.app
 
 .vs/
-GraphAtelier/Build/
+GraphAtelier/Binaries/
 GraphAtelier/Intermediate/

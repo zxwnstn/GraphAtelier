@@ -2,3 +2,6 @@
 	path = GraphAtelier/ThirdParty/imgui
 	branch = docking
 	url = https://github.com/ocornut/imgui
+[submodule "GraphAtelier/FirstParty/Pointage"]
+	path = GraphAtelier/FirstParty/Pointage
+	url = https://github.com/zxwnstn/Pointage
