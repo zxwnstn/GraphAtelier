@@ -51,7 +51,7 @@
     <ClCompile Include="Source\Runtime\Util\Ini.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Runtime\Util\File.cpp">
+    <ClCompile Include="Source\Runtime\HAL\File.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ThirdParty\cityhash\src\city.cpp">
@@ -61,6 +61,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Common\ModuleImport.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Platform\Windows\WindowsModule.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Runtime\HAL\Module.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -101,7 +107,7 @@
     <ClInclude Include="Source\Runtime\Util\Ini.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Runtime\Util\File.h">
+    <ClInclude Include="Source\Runtime\HAL\File.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ThirdParty\cityhash\src\city.h">
@@ -978,6 +984,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Common\Debug.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Runtime\HAL\Module.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -19,36 +19,30 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{6f0483dc-ff2b-43bf-937a-48a351a0672d}</ProjectGuid>
     <RootNamespace>GraphAtelier</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -133,6 +127,7 @@
       </AdditionalDependencies>
       <AdditionalLibraryDirectories>$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <DelayLoadDLLs>Pointaged.dll</DelayLoadDLLs>
+      <SupportUnloadOfDelayLoadedDLL>true</SupportUnloadOfDelayLoadedDLL>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -154,6 +149,7 @@
       <AdditionalLibraryDirectories>$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>imgui.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <DelayLoadDLLs>Pointage.dll</DelayLoadDLLs>
+      <SupportUnloadOfDelayLoadedDLL>true</SupportUnloadOfDelayLoadedDLL>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -162,13 +158,15 @@
     <ClCompile Include="Source\Common\TypeUtil.cpp" />
     <ClCompile Include="Source\Platform\Windows\WindowsAppliacation.cpp" />
     <ClCompile Include="Source\Platform\Windows\WindowsLaunch.cpp" />
+    <ClCompile Include="Source\Platform\Windows\WindowsModule.cpp" />
     <ClCompile Include="Source\Platform\Windows\Window\WindowsWindow.cpp" />
     <ClCompile Include="Source\Platform\Windows\Window\WindowsWindowProc.cpp" />
     <ClCompile Include="Source\Runtime\Application\Application.cpp" />
     <ClCompile Include="Source\Runtime\Engine\Command.cpp" />
     <ClCompile Include="Source\Runtime\Engine\Engine.cpp" />
+    <ClCompile Include="Source\Runtime\HAL\Module.cpp" />
     <ClCompile Include="Source\Runtime\Launch\Entry.cpp" />
-    <ClCompile Include="Source\Runtime\Util\File.cpp" />
+    <ClCompile Include="Source\Runtime\HAL\File.cpp" />
     <ClCompile Include="Source\Runtime\Util\Ini.cpp" />
     <ClCompile Include="Source\Runtime\Window\Window.cpp" />
     <ClCompile Include="ThirdParty\cityhash\src\city.cpp" />
@@ -179,6 +177,7 @@
     <ClInclude Include="Source\Common\Define.h" />
     <ClInclude Include="Source\Common\glm.h" />
     <ClInclude Include="Source\Common\PCH.h" />
+    <ClInclude Include="Source\Runtime\HAL\Module.h" />
     <ClInclude Include="Source\Platform\Windows\WindowsAppliacation.h" />
     <ClInclude Include="Source\Platform\Windows\WindowsCommon.h" />
     <ClInclude Include="Source\Platform\Windows\Window\WindowsWindow.h" />
@@ -187,7 +186,7 @@
     <ClInclude Include="Source\Runtime\Engine\Engine.h" />
     <ClInclude Include="Source\Runtime\Engine\Command.h" />
     <ClInclude Include="Source\Runtime\RHI\RHI.h" />
-    <ClInclude Include="Source\Runtime\Util\File.h" />
+    <ClInclude Include="Source\Runtime\HAL\File.h" />
     <ClInclude Include="Source\Runtime\Util\Ini.h" />
     <ClInclude Include="Source\Runtime\Window\Window.h" />
     <ClInclude Include="ThirdParty\cityhash\src\city.h" />

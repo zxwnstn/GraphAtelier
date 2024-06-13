@@ -2,7 +2,8 @@
 
 #include "Application.h"
 #include "Runtime/Util/Ini.h"
-#include "Runtime/Util/File.h"
+#include "Runtime/HAL/Module.h"
+
 FApplication* GApplication = nullptr;
 
 bool FApplication::Initialize()
@@ -29,11 +30,24 @@ bool FApplication::Initialize()
 		BasicWindowInformation.bConsole = false;
 		BasicWindowInformation.PlatformHandle = nullptr;
 	}
+
+	// LoadModule
+	{
+		FString PointagePath = FStringPaths::RelativeFirstPartyPath + TSTR("/Pointage/Binaries/")
+#if BUILD_RELEASE
+			+ TSTR("/Pointage.dll");
+#else
+			+ TSTR("/Pointaged.dll");
+#endif
+		FModuleManager::Get().LoadModule(PointagePath, TSTR("Pointage"));
+	}
+
 	return true;
 }
 
 void FApplication::ShutDown()
 {
+	FModuleManager::Get().Shutdown();
 }
 
 const FBasicWindowInformation& FApplication::GetMainWindowInformation()

@@ -1,7 +1,6 @@
 #include "Common/PCH.h"
 
 #include "Runtime/Util/Ini.h"
-#include "Runtime/Util/File.h"
 
 static const FString IniFileExtension = FString(TSTR("ini"));
 static const FString IniFileDotExtension = FString(TSTR(".ini"));

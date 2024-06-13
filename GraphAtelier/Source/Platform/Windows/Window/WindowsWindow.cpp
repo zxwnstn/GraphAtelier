@@ -8,6 +8,8 @@
 #include "Runtime/Application/Application.h"
 #include "Platform/Windows/Window/WindowsWindowProc.h"
 
+#include <iostream>
+
 FWindow* CreatePlatformWindow(const FBasicWindowInformation& InWindowInform)
 {
 	return new FWindowsWindow(InWindowInform);
@@ -20,6 +22,8 @@ FWindowsWindow::FWindowsWindow(const FBasicWindowInformation& InBasicWindowInfor
 
 bool FWindowsWindow::Initialize()
 {
+    static int32 WindowID = 0;
+
     if (!FWindow::Initialize())
     {
         return false;
@@ -27,12 +31,48 @@ bool FWindowsWindow::Initialize()
 
     if (BasicWindowInformation.bConsole)
     {
-        AllocConsole();
+        if (!AllocConsole())
+        {
+            return false;
+        }
+
+        FILE* Dummy;
+        freopen_s(&Dummy, "CONIN$", "r", stdin);
+        freopen_s(&Dummy, "CONOUT$", "w", stderr);
+        freopen_s(&Dummy, "CONOUT$", "w", stdout);
+
+        HANDLE hStdout = CreateFile(TSTR("CONOUT$"), GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE,
+            NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+        HANDLE hStdin = CreateFile(TSTR("CONIN$"), GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE,
+            NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+
+        SetStdHandle(STD_OUTPUT_HANDLE, hStdout);
+        SetStdHandle(STD_ERROR_HANDLE, hStdout);
+        SetStdHandle(STD_INPUT_HANDLE, hStdin);
+
+        std::wclog.clear();
+        std::clog.clear();
+        std::wcout.clear();
+        std::cout.clear();
+        std::wcerr.clear();
+        std::cerr.clear();
+        std::wcin.clear();
+        std::cin.clear();
+
+        WindowClassName.resize(MAX_PATH);
+        
+        GetConsoleTitle(WindowClassName.data(), MAX_PATH);
+        hWnd = FindWindow(NULL, WindowClassName.c_str());
+        if (!hWnd)
+        {
+            return false;
+        }
+
+        WindowClassName = GApplication->GetTitle() + TSTR("_CONSOLE_WINDOW") + ToString(WindowID);
+        SetConsoleTitle(WindowClassName.c_str());
     }
     else
     {
-        static int32 WindowID = 0;
-
         WindowClassName = GApplication->GetTitle() + TSTR("_WINDOW") + ToString(WindowID);
 
         ZeroMemory(&WindowClass, sizeof(WNDCLASSEX));
@@ -71,6 +111,11 @@ bool FWindowsWindow::Initialize()
 void FWindowsWindow::Shutdown()
 {
     FWindow::Shutdown();
+
+    if (BasicWindowInformation.bConsole)
+    {
+        FreeConsole();
+    }
 
     CloseHandle(hWnd);
     UnregisterClass(WindowClassName.c_str(), WindowClass.hInstance);

@@ -2,7 +2,7 @@
 
 #if _WIN32
 	#define BUILD_DEBUG _DEBUG
-	#define BUILD_RELEASE
+	#define BUILD_RELEASE !BUILD_DEBUG
 #endif
 
 // Select pointage SharedLib or StaticLib default is SharedLib

@@ -6,7 +6,6 @@
 
 #include "Pointage/Include/Pointage.h"
 
-#include <Windows.h>
 FEngine GEngine;
 
 void FEngine::Initialize()
@@ -22,20 +21,20 @@ void FEngine::Initialize()
 	}
 
 #if BUILD_DEBUG
-	if (FCommandLine::Get().Has(TSTR("CreateConsole")))
+	if (FCommandLine::Get().Has(TSTR("WithConsole")))
 	{
+        auto& NewWindow = Windows.emplace_back(nullptr);
 		FBasicWindowInformation ConsoleWindowInformation;
 		ConsoleWindowInformation.bConsole = true;
-		Windows.push_back(CreatePlatformWindow(ConsoleWindowInformation));
+        NewWindow = CreatePlatformWindow(ConsoleWindowInformation);
+        NewWindow->Initialize();
 	}
 #endif
-
-	MainWindow->Show();
-
 	// Initialize Pointage
-	auto v = LoadLibrary(L"Pointage.dll");
 	Pointage::ATest::Init();
 	Pointage::Initialize();
+
+	MainWindow->Show();
 }
 
 void FEngine::ShutDown()

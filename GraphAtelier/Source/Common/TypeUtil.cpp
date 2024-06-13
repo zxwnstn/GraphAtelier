@@ -60,55 +60,30 @@ FArray<FString> Split(const FString& TargetString, const FString& Delim, const b
 
         if (DelimStartPosition == FString::npos)
         {
+            DelimStartPositions.push_back(TargetString.size());
             break;
         }
         DelimStartPositions.push_back(DelimStartPosition);
         ++DelimStartPosition;
     }
-    
-    if (DelimStartPositions.size() == 0)
-    {
-        Ret.push_back(TargetString);
-        return Ret;
-    }
-    
-    {
-        FString FirstTokken = TargetString.substr(0, DelimStartPositions[0]);
-        if (!FirstTokken.empty())
-        {
-            Ret.push_back(FirstTokken);
-        }
-    }
 
-    int32 DelimLen = Delim.length();
+    int32 CurrentCursor = 0;
+    const int32 DelimLen = Delim.length();
     for (int32 i = 0; i < DelimStartPositions.size(); ++i)
     {
         DelimStartPosition = DelimStartPositions[i];
-        int32 NextDelimPosition = 0;
-        int32 StartPosition = 0;
-        int32 Count = 0;
-
-        if (i + 1 < DelimStartPositions.size())
+        if (CurrentCursor >= DelimStartPosition)
         {
-            NextDelimPosition = DelimStartPositions[i + 1];
+            CurrentCursor = DelimStartPosition + DelimLen;
+            continue;
         }
-        else // last delim position
+        FString Tokken = TargetString.substr(CurrentCursor, DelimStartPosition - CurrentCursor);
+        if (bTrim)
         {
-            NextDelimPosition = TargetString.length();
+            Tokken = Trim(Tokken);
         }
-
-        StartPosition += DelimStartPosition + DelimLen;
-        Count = NextDelimPosition - StartPosition;
-
-        FString Tokken = TargetString.substr(StartPosition, Count);
-        if (!Tokken.empty())
-        {
-            if (bTrim)
-            {
-                Tokken = Trim(Tokken);
-            }
-            Ret.push_back(Tokken);
-        }
+        Ret.push_back(Tokken);
+        CurrentCursor = DelimStartPosition + DelimLen;
     }
 
 	return Ret;

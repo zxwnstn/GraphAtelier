@@ -23,6 +23,8 @@ FPath FPaths::RelativeAssetPath;
 FPath FPaths::RelativeConfigPath;
 FPath FPaths::RelativeRootPath;
 FPath FPaths::RelativeShaderPath;
+FPath FPaths::RelativeFirstPartyPath;
+FPath FPaths::RelativeThirdPartyPath;
 
 FString FStringPaths::AbsoluteExecuatablePath;
 FString FStringPaths::AbsoluteWorkingPath;
@@ -30,6 +32,8 @@ FString FStringPaths::RelativeAssetPath;
 FString FStringPaths::RelativeConfigPath;
 FString FStringPaths::RelativeRootPath;
 FString FStringPaths::RelativeShaderPath;
+FString FStringPaths::RelativeFirstPartyPath;
+FString FStringPaths::RelativeThirdPartyPath;
 
 FPath FFileHelper::GetWorkingDirectory()
 {
@@ -215,11 +219,16 @@ bool FFileHelper::InitializePaths()
 	FStringPaths::RelativeAssetPath = FStringPaths::RelativeRootPath + TSTR("/Asset");
 	FStringPaths::RelativeConfigPath = FStringPaths::RelativeRootPath + TSTR("/Config");
 	FStringPaths::RelativeShaderPath = FStringPaths::RelativeRootPath + TSTR("/Source/Shader");
+	FStringPaths::RelativeFirstPartyPath = FStringPaths::RelativeRootPath + TSTR("/FirstParty");
+	FStringPaths::RelativeThirdPartyPath = FStringPaths::RelativeRootPath + TSTR("/ThirdParty");
 
 	// Sanity check
 	bool bPathIsCorredtlySet = DirectoryExist(FStringPaths::RelativeAssetPath) 
 		&& DirectoryExist(FStringPaths::RelativeConfigPath)
-		&& DirectoryExist(FStringPaths::RelativeShaderPath);
+		&& DirectoryExist(FStringPaths::RelativeShaderPath)
+		&& DirectoryExist(FStringPaths::RelativeFirstPartyPath)
+		&& DirectoryExist(FStringPaths::RelativeThirdPartyPath);
+	
 	Assert(bPathIsCorredtlySet);
 	if (!bPathIsCorredtlySet)
 	{
@@ -231,6 +240,8 @@ bool FFileHelper::InitializePaths()
 	FPaths::RelativeRootPath = FStringPaths::RelativeRootPath;
 	FPaths::RelativeConfigPath = FStringPaths::RelativeConfigPath;
 	FPaths::RelativeShaderPath = FStringPaths::RelativeShaderPath;
+	FPaths::RelativeFirstPartyPath = FStringPaths::RelativeFirstPartyPath;
+	FPaths::RelativeThirdPartyPath = FStringPaths::RelativeThirdPartyPath;
 
 	return true;
 }

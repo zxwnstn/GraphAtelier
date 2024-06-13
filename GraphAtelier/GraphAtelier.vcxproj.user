@@ -8,12 +8,13 @@
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <LocalDebuggerCommandArguments>-SetWorkingDirectory</LocalDebuggerCommandArguments>
+    <LocalDebuggerCommandArguments>-SetWorkingDirectory -WithConsole</LocalDebuggerCommandArguments>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
-    <RemoteDebuggerCommandArguments>-SetWorkingDirectory</RemoteDebuggerCommandArguments>
+    <RemoteDebuggerCommandArguments>-SetWorkingDirectory -WithConsole</RemoteDebuggerCommandArguments>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LocalDebuggerCommandArguments>-SetWorkingDirectory</LocalDebuggerCommandArguments>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+    <RemoteDebuggerCommandArguments>-SetWorkingDirectory</RemoteDebuggerCommandArguments>
   </PropertyGroup>
 </Project>

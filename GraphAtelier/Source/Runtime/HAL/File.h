@@ -11,6 +11,8 @@ struct FPaths
 	static FPath RelativeAssetPath;
 	static FPath RelativeShaderPath;
 	static FPath RelativeConfigPath;
+	static FPath RelativeFirstPartyPath;
+	static FPath RelativeThirdPartyPath;
 };
 
 struct FStringPaths
@@ -21,6 +23,8 @@ struct FStringPaths
 	static FString RelativeAssetPath;
 	static FString RelativeShaderPath;
 	static FString RelativeConfigPath;
+	static FString RelativeFirstPartyPath;
+	static FString RelativeThirdPartyPath;
 };
 
 class FFile
